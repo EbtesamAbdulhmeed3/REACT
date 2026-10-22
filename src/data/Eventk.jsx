@@ -1,0 +1,66 @@
+const events = [
+  {
+    id: 1,
+    title: "Frontend Development Workshop",
+    description: "Learn how to build modern web interfaces.",
+    date: "October 12, 2026",
+    location: "Cairo",
+    category: "Technology",
+    speaker: "Ahmed Mohamed",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+  },
+  {
+    id: 2,
+    title: "Business Growth Event",
+    description: "Learn how to grow your business successfully.",
+    date: "October 15, 2026",
+    location: "Giza",
+    category: "Business",
+    speaker: "Sara Ali",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72",
+  },
+  {
+    id: 3,
+    title: "UI/UX Design Workshop",
+    description: "Learn the basics of modern UI/UX design.",
+    date: "October 20, 2026",
+    location: "Cairo",
+    category: "Design",
+    speaker: "Mona Hassan",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5",
+  },
+  {
+    id: 4,
+    title: "Digital Marketing Event",
+    description: "Discover modern digital marketing strategies.",
+    date: "October 25, 2026",
+    location: "Alexandria",
+    category: "Marketing",
+    speaker: "Omar Ahmed",
+
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+
+  },
+  {
+    id: 5,
+    title: "Artificial Intelligence Workshop",
+    description: "Explore the world of Artificial Intelligence.",
+    date: "November 2, 2026",
+    location: "Cairo",
+    category: "AI",
+    speaker: "Mohamed Samir",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+  },
+  {
+    id: 6,
+    title: "React Development Workshop",
+    description: "Build modern applications using React.",
+    date: "November 8, 2026",
+    location: "Giza",
+    category: "Technology",
+    speaker: "Youssef Ali",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
+  },
+];
+
+export default events;
