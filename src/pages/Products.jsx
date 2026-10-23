@@ -1,7 +1,10 @@
-
+import product1 from "../assets/product1.jpeg";
+import product2 from "../assets/product2.jpeg";
+import product3 from "../assets/product3.jpeg";
+import product4 from "../assets/product4.jpeg";
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useTheme } from "../ThemeContext.jsx";
 import { useCart } from "../CartContext.jsx";
 
@@ -12,8 +15,7 @@ export const products = [
     nameAr: "بار التمر واللوز",
     price: 35,
     categories: ["High Protein", "Healthy Snacks"],
-    image:
-      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80",
+    image: product1,
   },
   {
     id: 2,
@@ -21,8 +23,7 @@ export const products = [
     nameAr: "براونيز كيتو خالي من الجلوتين",
     price: 55,
     categories: ["Keto", "Gluten-Free"],
-    image:
-      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80",
+    image: product3,
   },
   {
     id: 3,
@@ -30,8 +31,7 @@ export const products = [
     nameAr: "زبدة فول سوداني بدون سكر",
     price: 95,
     categories: ["Vegan", "Healthy Snacks"],
-    image:
-      "https://images.unsplash.com/photo-1505576633757-0ac1084af824?auto=format&fit=crop&w=600&q=80",
+    image: product2,
   },
   {
     id: 4,
@@ -39,8 +39,7 @@ export const products = [
     nameAr: "صندوق المدارس للأطفال",
     price: 300,
     categories: ["Healthy Snacks"],
-    image:
-      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=600&q=80",
+    image: product4,
   },
 ];
 
@@ -57,8 +56,15 @@ export default function Products() {
   const { darkMode } = useTheme();
   const { addToCart } = useCart();
 
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const urlSearch = searchParams.get("search") || "";
+
+  const [search, setSearch] = useState(urlSearch);
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  useEffect(() => {
+    setSearch(urlSearch);
+  }, [urlSearch]);
 
   const [favorites, setFavorites] = useState(() => {
     try {
@@ -112,7 +118,6 @@ export default function Products() {
   return (
     <main className={`min-h-screen px-4 py-10 md:px-10 ${pageStyle}`}>
       <div className="mx-auto max-w-7xl">
-
         {/* Page Heading */}
         <div className="mb-8 text-center">
           <p className="mb-2 font-semibold uppercase tracking-widest text-[#ee6326]">
@@ -235,13 +240,17 @@ export default function Products() {
                     {isFavorite ? "❤️" : "🤍"}
                   </button>
 
-                  <img
-                    src={product.image}
-                    alt={product.nameAr}
-                    className="h-56 w-full object-cover"
-                  />
+                  {/* Product Image */}
+                  <Link to={`/products/${product.id}`}>
+                    <img
+                      src={product.image}
+                      alt={product.nameAr}
+                      className="h-56 w-full object-cover transition duration-300 hover:opacity-90"
+                    />
+                  </Link>
 
                   <div className="p-5">
+                    {/* Categories */}
                     <div className="mb-3 flex flex-wrap gap-2">
                       {product.categories.map((category) => (
                         <span
@@ -253,26 +262,41 @@ export default function Products() {
                       ))}
                     </div>
 
-                    <h2 className="mb-1 text-lg font-bold">
-                      {product.name}
-                    </h2>
+                    {/* Product Name */}
+                    <Link
+                      to={`/products/${product.id}`}
+                      className="transition hover:text-[#ee6326]"
+                    >
+                      <h2 className="mb-1 text-lg font-bold">
+                        {product.name}
+                      </h2>
+                    </Link>
 
                     <p className={`mb-4 text-sm ${mutedText}`}>
                       {product.nameAr}
                     </p>
 
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-lg font-bold text-[#ee6326]">
-                        {product.price} EGP
-                      </p>
+                    {/* Price */}
+                    <p className="mb-4 text-lg font-bold text-[#ee6326]">
+                      {product.price} EGP
+                    </p>
 
+                    {/* Buttons */}
+                    <div className="flex flex-col gap-3">
                       <button
                         type="button"
                         onClick={() => addToCart(product)}
-                        className="cursor-pointer rounded-full bg-[#ee6326] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#ee9537]"
+                        className="w-full cursor-pointer rounded-full bg-[#ee6326] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#ee9537]"
                       >
                         Add to Cart
                       </button>
+
+                      <Link
+                        to={`/products/${product.id}`}
+                        className="w-full rounded-full border border-[#ee6326] px-4 py-2 text-center text-sm font-bold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white"
+                      >
+                        Product Details
+                      </Link>
                     </div>
                   </div>
                 </article>
@@ -283,9 +307,7 @@ export default function Products() {
           <div className={`rounded-2xl p-10 text-center ${cardStyle}`}>
             <p className="mb-3 text-4xl">🔎</p>
 
-            <h2 className="mb-2 text-xl font-bold">
-              No products found
-            </h2>
+            <h2 className="mb-2 text-xl font-bold">No products found</h2>
 
             <p className={`mb-5 ${mutedText}`}>
               Try another search term or choose a different category.

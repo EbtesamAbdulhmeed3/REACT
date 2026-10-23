@@ -1,4 +1,45 @@
+
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Acumin";
+  src: url("./assets/fonts/AcuminVariableConcept.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fairuz";
+  src: url("./assets/fonts/Fairuz.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yorkmade";
+  src: url("./assets/fonts/YorkmadeProDemo-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Asomy";
+  src: url("./assets/fonts/DG 3asomy Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Baloo";
+  src: url("./assets/fonts/BalooBhaijaan2-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   box-sizing: border-box;
@@ -10,5 +51,32 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Baloo", sans-serif;
+}
+
+
+/* العناوين الرئيسية */
+h1 {
+  font-family: "Asomy", "Baloo", sans-serif;
+}
+
+/* العناوين الفرعية */
+h2,
+h3 {
+  font-family: "Fairuz", "Baloo", sans-serif;
+}
+
+/* النصوص العربية */
+body {
+  font-family: "Baloo", sans-serif;
+}
+
+/* الأسعار والأرقام */
+.price {
+  font-family: "Acumin", "Baloo", sans-serif;
+}
+
+/* الكلمات المميزة أو الزخرفية */
+.brand-accent {
+  font-family: "Yorkmade", "Baloo", sans-serif;
 }
