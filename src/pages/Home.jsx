@@ -1,7 +1,7 @@
-
 import dark from "../assets/dark.svg";
 import white from "../assets/white.svg";
 import imge1 from "../assets/imge1.jpeg";
+import heroVideo from "../assets/hero.mp4";
 
 import product1 from "../assets/product1.jpeg";
 import product2 from "../assets/product2.jpeg";
@@ -97,13 +97,19 @@ export default function Home() {
       `}</style>
 
       {/* Hero Section */}
-      <section className="relative isolate flex min-h-600px items-center justify-center overflow-hidden md:min-h-700px lg:min-h-760px">
-        <img
-          src={imge1}
-          alt="تمرة - وجبات صحية"
-          fetchPriority="high"
-          className="absolute inset-0 z-0 h-full w-full object-cover"
-        />
+      <section className="relative isolate flex min-h-[600px] items-center justify-center overflow-hidden md:min-h-[700px] lg:min-h-[760px]">
+        {/* الفيديو من فولدر public/videos/hero.mp4 */}
+       <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  poster={imge1}
+  className="absolute inset-0 z-0 h-full w-full object-cover"
+>
+  <source src={heroVideo} type="video/mp4" />
+</video>
 
         <div className="absolute inset-0 z-0 bg-black/45" />
 
@@ -186,7 +192,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 z-10 h-2 w-full [bg-gradient-to-l] from-[#ee6326] via-[#ee9537] to-[#fce1ce]" />
+        <div className="absolute bottom-0 left-0 z-10 h-2 w-full bg-gradient-to-l from-[#ee6326] via-[#ee9537] to-[#fce1ce]" />
       </section>
 
       {/* Featured Products Section */}
