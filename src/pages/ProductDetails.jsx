@@ -4,6 +4,9 @@ import { products } from "./Products";
 import { useTheme } from "../ThemeContext.jsx";
 import { useCart } from "../CartContext.jsx";
 
+import dark from "../assets/dark.svg";
+import white from "../assets/white.svg";
+
 const productDetails = {
   1: {
     calories: 205,
@@ -61,6 +64,14 @@ const productDetails = {
   },
 };
 
+const categoryNames = {
+  "High Protein": "غني بالبروتين",
+  "Healthy Snacks": "سناكس صحية",
+  Keto: "كيتو",
+  "Gluten-Free": "خالي من الجلوتين",
+  Vegan: "نباتي",
+};
+
 export default function ProductDetails() {
   const { id } = useParams();
   const { darkMode } = useTheme();
@@ -70,29 +81,43 @@ export default function ProductDetails() {
   const details = productDetails[Number(id)];
 
   const pageStyle = darkMode
-    ? "bg-[#281713] text-[#fce1ce]"
-    : "bg-[#fce1ce] text-[#662714]";
+    ? "text-white"
+    : "text-[#3B1608]";
 
   const cardStyle = darkMode
-    ? "bg-[#45251c] text-[#fce1ce]"
-    : "bg-white text-[#662714]";
+    ? "border border-[#754331] bg-[#24130E] text-white"
+    : "border border-[#D6B5A2] bg-white text-[#3B1608]";
 
   const mutedText = darkMode
-    ? "text-[#fce1ce]/70"
-    : "text-[#662714]/70";
+    ? "text-[#F0D8CA]"
+    : "text-[#4A2113]";
+
+  const infoBoxStyle = darkMode
+    ? "border border-[#754331] bg-[#38221A]"
+    : "border border-[#E7C8B4] bg-[#FFF4EB]";
 
   if (!product || !details) {
     return (
-      <main className={`min-h-screen px-4 py-16 ${pageStyle}`}>
+      <main
+        dir="rtl"
+        className={`min-h-screen px-4 py-16 ${pageStyle}`}
+        style={{
+          backgroundImage: `url(${darkMode ? dark : white})`,
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "repeat-y",
+        }}
+      >
         <div className="mx-auto max-w-xl text-center">
-          <h1 className="mb-4 text-3xl font-bold">
-            Product Not Found
+          <h1 className="mb-4 text-3xl font-extrabold">
+            المنتج غير موجود
           </h1>
+
           <Link
             to="/products"
-            className="font-bold text-[#ee6326] underline"
+            className="font-extrabold text-[#ee6326] underline"
           >
-            Back to Products
+            الرجوع إلى المنتجات
           </Link>
         </div>
       </main>
@@ -100,108 +125,143 @@ export default function ProductDetails() {
   }
 
   return (
-    <main className={`min-h-screen px-4 py-10 md:px-10 ${pageStyle}`}>
+    <main
+      dir="rtl"
+      className={`min-h-screen px-4 py-10 sm:px-6 md:px-10 ${pageStyle}`}
+      style={{
+        backgroundImage: `url(${darkMode ? dark : white})`,
+        backgroundSize: "100% auto",
+        backgroundPosition: "top center",
+        backgroundRepeat: "repeat-y",
+      }}
+    >
       <div className="mx-auto max-w-6xl">
+        {/* الرجوع للمنتجات */}
         <Link
           to="/products"
-          className="mb-8 inline-block font-bold text-[#ee6326] hover:underline"
+          className="mb-8 inline-flex items-center gap-2 font-extrabold text-[#ee6326] transition hover:text-[#d94f18]"
         >
-          ← Back to Products
+          <span>→</span>
+          الرجوع إلى المنتجات
         </Link>
 
+        {/* تفاصيل المنتج */}
         <div
-          className={`grid overflow-hidden rounded-3xl shadow-lg md:grid-cols-2 ${cardStyle}`}
+          className={`grid overflow-hidden rounded-3xl shadow-xl md:grid-cols-2 ${cardStyle}`}
         >
-          <img
-            src={product.image}
-            alt={product.nameAr}
-            className="h-80 w-full object-cover md:h-full md:min-h-420px"
-          />
+          {/* صورة المنتج */}
+          <div
+            className={`flex min-h-300px items-center justify-center p-5 sm:p-8 md:min-h-520px ${
+              darkMode ? "bg-[#1D100C]" : "bg-[#FFF4EB]"
+            }`}
+          >
+            <img
+              src={product.image}
+              alt={product.nameAr}
+              className="block h-auto max-h-420px w-full max-w-420px rounded-2xl object-contain"
+            />
+          </div>
 
-          <div className="p-6 md:p-10">
-            <p className="mb-3 font-semibold uppercase tracking-wider text-[#ee6326]">
-              Tamra Healthy Bites
+          {/* معلومات المنتج */}
+          <div className="p-5 sm:p-7 md:p-10">
+            <p className="mb-3 text-sm font-extrabold tracking-wide text-[#ee6326]">
+              تمرة — سناكس صحية
             </p>
 
-            <h1 className="mb-2 text-2xl font-bold md:text-4xl">
-              {product.name}
+            <h1 className="mb-3 text-2xl font-extrabold leading-relaxed sm:text-3xl md:text-4xl">
+              {product.nameAr}
             </h1>
 
-            <p className={`mb-5 text-lg ${mutedText}`}>
-              {product.nameAr}
+            <p className={`mb-5 text-base font-bold ${mutedText}`}>
+              {product.name}
             </p>
 
+            {/* التصنيفات */}
             <div className="mb-5 flex flex-wrap gap-2">
               {product.categories.map((category) => (
                 <span
                   key={category}
-                  className="rounded-full bg-[#ee9537]/20 px-3 py-1 text-sm font-semibold text-[#ee6326]"
+                  className={`rounded-full px-3 py-2 text-sm font-extrabold ${
+                    darkMode
+                      ? "bg-[#503025] text-[#FFE1CC]"
+                      : "bg-[#FFF0E5] text-[#542313]"
+                  }`}
                 >
-                  {category}
+                  {categoryNames[category] || category}
                 </span>
               ))}
             </div>
 
-            <p className="mb-6 text-3xl font-bold text-[#ee6326]">
-              {product.price} EGP
+            {/* السعر */}
+            <p className="mb-6 text-3xl font-extrabold text-[#ee6326]">
+              {product.price} جنيه
             </p>
 
-            {/* Product specifications */}
-            <div className="mb-6 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-[#ee9537]/15 p-4">
-                <p className={`mb-1 text-sm ${mutedText}`}>
-                  Weight
+            {/* المواصفات */}
+            <h2 className="mb-3 text-xl font-extrabold">
+              تفاصيل المنتج
+            </h2>
+
+            <div className="mb-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className={`rounded-xl p-4 ${infoBoxStyle}`}>
+                <p className={`mb-2 text-sm font-bold ${mutedText}`}>
+                  الوزن
                 </p>
-                <p className="font-bold">{details.weight}</p>
+                <p className="font-extrabold">{details.weight}</p>
               </div>
 
-              <div className="rounded-xl bg-[#ee9537]/15 p-4">
-                <p className={`mb-1 text-sm ${mutedText}`}>
-                  Calories
+              <div className={`rounded-xl p-4 ${infoBoxStyle}`}>
+                <p className={`mb-2 text-sm font-bold ${mutedText}`}>
+                  السعرات الحرارية للعبوة
                 </p>
-                <p className="font-bold">
-                  {details.calories.toLocaleString("en-US")} kcal
+                <p className="font-extrabold">
+                  {details.calories.toLocaleString("en-US")} سعرة
                 </p>
               </div>
 
-              <div className="rounded-xl bg-[#ee9537]/15 p-4">
-                <p className={`mb-1 text-sm ${mutedText}`}>
-                  Serving Size
+              <div className={`rounded-xl p-4 ${infoBoxStyle}`}>
+                <p className={`mb-2 text-sm font-bold ${mutedText}`}>
+                  حجم الحصة
                 </p>
-                <p className="font-bold">{details.serving}</p>
+                <p className="font-extrabold">{details.serving}</p>
               </div>
 
               {details.servingCalories && (
-                <div className="rounded-xl bg-[#ee9537]/15 p-4">
-                  <p className={`mb-1 text-sm ${mutedText}`}>
-                    Calories per Serving
+                <div className={`rounded-xl p-4 ${infoBoxStyle}`}>
+                  <p className={`mb-2 text-sm font-bold ${mutedText}`}>
+                    السعرات في الحصة
                   </p>
-                  <p className="font-bold">
-                    {details.servingCalories} kcal
+                  <p className="font-extrabold">
+                    {details.servingCalories} سعرة
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Description */}
-            <section className="mb-6">
-              <h2 className="mb-2 text-xl font-bold">
-                About This Product
+            {/* وصف المنتج */}
+            <section className="mb-7">
+              <h2 className="mb-3 text-xl font-extrabold">
+                عن المنتج
               </h2>
-              <p className={`leading-7 ${mutedText}`}>
+
+              <p className={`text-base font-medium leading-8 ${mutedText}`}>
                 {details.description}
               </p>
             </section>
 
-            {/* Highlights */}
-            <section className="mb-6">
-              <h2 className="mb-3 text-xl font-bold">
-                Product Highlights
+            {/* مميزات المنتج */}
+            <section className="mb-7">
+              <h2 className="mb-4 text-xl font-extrabold">
+                مميزات المنتج
               </h2>
-              <ul className="space-y-2">
+
+              <ul className="space-y-3">
                 {details.highlights.map((highlight) => (
-                  <li key={highlight} className="flex gap-2">
-                    <span className="font-bold text-[#ee6326]">
+                  <li
+                    key={highlight}
+                    className="flex items-start gap-3 text-base font-semibold leading-7"
+                  >
+                    <span className="font-extrabold text-[#ee6326]">
                       ✓
                     </span>
                     <span>{highlight}</span>
@@ -210,37 +270,39 @@ export default function ProductDetails() {
               </ul>
             </section>
 
-            {/* Storage */}
-            <section className="mb-6">
-              <h2 className="mb-2 text-lg font-bold">
-                Storage Instructions
+            {/* طريقة الحفظ */}
+            <section className="mb-7">
+              <h2 className="mb-3 text-lg font-extrabold">
+                طريقة الحفظ
               </h2>
-              <p className={`text-sm leading-6 ${mutedText}`}>
+
+              <p className={`text-base font-medium leading-7 ${mutedText}`}>
                 {details.storage}
               </p>
             </section>
 
+            {/* الأزرار */}
             <button
               type="button"
               onClick={() => addToCart(product)}
-              className="w-full cursor-pointer rounded-full bg-[#ee6326] px-6 py-3 font-bold text-white transition hover:bg-[#ee9537]"
+              className="w-full cursor-pointer rounded-full bg-[#ee6326] px-6 py-4 font-extrabold text-white shadow-md transition hover:bg-[#d94f18]"
             >
-              Add to Cart
+              أضيفي إلى السلة 🛒
             </button>
 
             <Link
               to="/products"
-              className="mt-4 block w-full rounded-full border border-[#ee6326] px-6 py-3 text-center font-bold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white"
+              className={`mt-4 block w-full rounded-full border-2 border-[#ee6326] px-6 py-3 text-center font-extrabold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white`}
             >
-              Continue Shopping
+              متابعة التسوق
             </Link>
           </div>
         </div>
 
-        <p className={`mt-6 text-center text-sm ${mutedText}`}>
-          Note: Calorie values are approximate estimates for this project.
-          Please check the actual product label for verified nutritional
-          and allergen information.
+        {/* تنبيه السعرات */}
+        <p className={`mt-6 text-center text-sm font-semibold leading-7 ${mutedText}`}>
+          قيم السعرات الحرارية تقديرية وفق بيانات المشروع. يُرجى مراجعة
+          ملصق العبوة للتأكد من المعلومات الغذائية ومسببات الحساسية.
         </p>
       </div>
     </main>

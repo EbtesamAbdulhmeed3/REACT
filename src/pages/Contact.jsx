@@ -1,6 +1,7 @@
-
 import { useState } from "react";
 import { useTheme } from "../ThemeContext.jsx";
+import dark from "../assets/dark.svg";
+import white from "../assets/white.svg";
 
 export default function Contact() {
   const { darkMode } = useTheme();
@@ -15,12 +16,23 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
 
   const pageStyle = darkMode
-    ? "bg-[#281713] text-[#fce1ce]"
-    : "bg-[#fce1ce] text-[#662714]";
+    ? "text-[#fce1ce]"
+    : "text-[#662714]";
 
   const cardStyle = darkMode
-    ? "bg-[#45251c] text-[#fce1ce]"
-    : "bg-white text-[#662714]";
+    ? "border border-[#ee9537]/30 bg-[#45251c] text-[#fce1ce]"
+    : "border border-[#ee9537]/40 bg-white/95 text-[#662714]";
+
+  const inputStyle = darkMode
+    ? "border-[#ee9537]/60 bg-[#281713]/70 text-[#fce1ce] placeholder:text-[#fce1ce]/50"
+    : "border-[#ee9537]/70 bg-[#fffaf6] text-[#662714] placeholder:text-[#662714]/50";
+
+  const backgroundStyle = {
+    backgroundImage: `url(${darkMode ? dark : white})`,
+    backgroundSize: "100% auto",
+    backgroundPosition: "top center",
+    backgroundRepeat: "repeat-y",
+  };
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -36,122 +48,138 @@ export default function Contact() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const messages = JSON.parse(
-      localStorage.getItem("tamra-messages") || "[]"
-    );
+    try {
+      const savedMessages = JSON.parse(
+        localStorage.getItem("tamra-messages") || "[]"
+      );
 
-    const newMessage = {
-      ...formData,
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-    };
+      const newMessage = {
+        ...formData,
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+      };
 
-    localStorage.setItem(
-      "tamra-messages",
-      JSON.stringify([...messages, newMessage])
-    );
+      localStorage.setItem(
+        "tamra-messages",
+        JSON.stringify([...savedMessages, newMessage])
+      );
 
-    setSubmitted(true);
+      setSubmitted(true);
 
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      alert("حصلت مشكلة أثناء حفظ الرسالة. حاولي مرة تانية.");
+    }
   }
 
   return (
-    <main className={`min-h-screen px-4 py-12 md:px-10 ${pageStyle}`}>
+    <main
+      dir="rtl"
+      style={backgroundStyle}
+      className={`min-h-screen px-4 py-12 md:px-10 ${pageStyle}`}
+    >
       <div className="mx-auto max-w-6xl">
-
-        <div className="mb-10 text-center">
-          <p className="mb-3 font-bold uppercase tracking-widest text-[#ee6326]">
-            Get In Touch
+        {/* عنوان الصفحة */}
+        <div className="mb-12 text-center">
+          <p className="mb-4 inline-block rounded-full border-2 border-[#ee9537] bg-[#662714] px-6 py-2 text-lg font-black text-white shadow-md">
+            إحنا هنا علشانك
           </p>
 
-          <h1 className="mb-4 text-4xl font-extrabold md:text-5xl">
-            Contact Us
+          <h1 className="mb-5 text-4xl font-black md:text-5xl">
+            تواصل مع تمرة
           </h1>
 
-          <p className="mx-auto max-w-2xl leading-7 opacity-75">
-            Have a question about our products? Send us a message!
-            We would love to hear from you.
+          <p className="mx-auto max-w-2xl text-base font-semibold leading-8 md:text-lg">
+            عندك سؤال عن منتجاتنا أو حابة تشاركينا رأيك؟
+            ابعتي لنا رسالتك، ويسعدنا نسمع منك ❤️
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-5">
-
-          {/* Contact Information */}
-          <section className="rounded-3xl bg-[#662714] p-7 text-[#fce1ce] md:col-span-2 md:p-9">
-            <h2 className="mb-4 text-2xl font-bold">
-              Let's Talk!
+          {/* معلومات التواصل */}
+          <section className="rounded-3xl border border-[#ee9537]/40 bg-[#662714] p-7 text-[#fce1ce] shadow-xl md:col-span-2 md:p-9">
+            <h2 className="mb-4 text-2xl font-black">
+              خلينا نتكلم! ❤️
             </h2>
 
-            <p className="mb-8 leading-7 opacity-80">
-              We are happy to hear your questions, feedback, and
-              suggestions about Tamra.
+            <p className="mb-8 font-medium leading-8 text-[#fce1ce]/90">
+              رأيك وأسئلتك واقتراحاتك بتهمنا، وإحنا دايمًا سعداء
+              بتواصلك مع تمرة.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-7">
               <div className="flex items-start gap-4">
-                <span className="text-2xl">📩</span>
+                <span className="text-3xl">📩</span>
                 <div>
-                  <h3 className="font-bold">Email</h3>
-                  <p className="mt-1 break-all text-sm opacity-80">
-                    Send us your message using the form.
+                  <h3 className="text-lg font-extrabold">الرسائل</h3>
+                  <p className="mt-2 font-medium leading-7 text-[#fce1ce]/85">
+                    ابعتي لنا رسالتك من خلال النموذج الموجود جنبنا.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <span className="text-2xl">🕒</span>
+                <span className="text-3xl">🕒</span>
                 <div>
-                  <h3 className="font-bold">Availability</h3>
-                  <p className="mt-1 text-sm opacity-80">
-                    Leave your message anytime.
+                  <h3 className="text-lg font-extrabold">متاحين ليكي</h3>
+                  <p className="mt-2 font-medium leading-7 text-[#fce1ce]/85">
+                    تقدر تسيب رسالتك في أي وقت.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <span className="text-2xl">🌴</span>
+                <span className="text-3xl">🌴</span>
                 <div>
-                  <h3 className="font-bold">Tamra Healthy Bites</h3>
-                  <p className="mt-1 text-sm opacity-80">
-                    Good Choices, Great Taste.
+                  <h3 className="text-lg font-extrabold">تمرة — أكلة صحية
+                  </h3>
+                  <p className="mt-2 font-medium leading-7 text-[#fce1ce]/85">
+                    اختيارات صحية، وطعم مميز.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 border-t border-white/20 pt-6">
-              <p className="text-sm opacity-80">
-                We appreciate your interest in Tamra ❤️
+            <div className="mt-10 border-t border-white/25 pt-6">
+              <p className="font-bold leading-7">
+                شكرًا لاهتمامك بتمرة، وجودك يفرق معانا ❤️
               </p>
             </div>
           </section>
 
-          {/* Contact Form */}
-          <section className={`rounded-3xl p-7 shadow-lg md:col-span-3 md:p-9 ${cardStyle}`}>
+          {/* نموذج التواصل */}
+          <section
+            className={`rounded-3xl p-6 shadow-xl md:col-span-3 md:p-9 ${cardStyle}`}
+          >
             {submitted && (
               <div
                 role="status"
-                className="mb-6 rounded-xl bg-green-100 p-4 font-semibold text-green-800"
+                className="mb-6 rounded-2xl border border-green-300 bg-green-100 p-4 font-bold text-green-800"
               >
-                Your message has been saved successfully! ❤️
+                تم حفظ رسالتك بنجاح، شكرًا لتواصلك معانا! ❤️
               </div>
             )}
 
-            <h2 className="mb-6 text-2xl font-bold">
-              Send Us a Message
+            <h2 className="mb-2 text-2xl font-black md:text-3xl">
+              ابعت لنا رسالة
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <p className="mb-7 font-medium leading-7 opacity-80">
+              املأ البيانات دي، وإحنا هنكون سعداء نسمع منك.
+            </p>
 
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="name" className="mb-2 block font-semibold">
-                  Full Name
+                <label
+                  htmlFor="name"
+                  className="mb-2 block font-extrabold"
+                >
+                  الاسم بالكامل
                 </label>
 
                 <input
@@ -160,16 +188,19 @@ export default function Contact() {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Enter your name"
+                  placeholder="اكتب اسمك هنا"
                   required
                   minLength={3}
-                  className="w-full rounded-xl border border-[#ee9537] bg-transparent px-4 py-3 outline-none transition focus:ring-2 focus:ring-[#ee6326]"
+                  className={`w-full rounded-xl border-2 px-4 py-3 font-semibold outline-none transition focus:border-[#ee6326] focus:ring-2 focus:ring-[#ee6326]/30 ${inputStyle}`}
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="mb-2 block font-semibold">
-                  Email Address
+                <label
+                  htmlFor="email"
+                  className="mb-2 block font-extrabold"
+                >
+                  البريد الإلكتروني
                 </label>
 
                 <input
@@ -180,13 +211,17 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="example@email.com"
                   required
-                  className="w-full rounded-xl border border-[#ee9537] bg-transparent px-4 py-3 outline-none transition focus:ring-2 focus:ring-[#ee6326]"
+                  dir="ltr"
+                  className={`w-full rounded-xl border-2 px-4 py-3 font-semibold outline-none transition focus:border-[#ee6326] focus:ring-2 focus:ring-[#ee6326]/30 ${inputStyle}`}
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="mb-2 block font-semibold">
-                  Subject
+                <label
+                  htmlFor="subject"
+                  className="mb-2 block font-extrabold"
+                >
+                  موضوع الرسالة
                 </label>
 
                 <input
@@ -195,15 +230,18 @@ export default function Contact() {
                   type="text"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="What is your message about?"
+                  placeholder="الرسالة بخصوص إيه؟"
                   required
-                  className="w-full rounded-xl border border-[#ee9537] bg-transparent px-4 py-3 outline-none transition focus:ring-2 focus:ring-[#ee6326]"
+                  className={`w-full rounded-xl border-2 px-4 py-3 font-semibold outline-none transition focus:border-[#ee6326] focus:ring-2 focus:ring-[#ee6326]/30 ${inputStyle}`}
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="mb-2 block font-semibold">
-                  Your Message
+                <label
+                  htmlFor="message"
+                  className="mb-2 block font-extrabold"
+                >
+                  رسالتك
                 </label>
 
                 <textarea
@@ -211,23 +249,22 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Write your message here..."
+                  placeholder="اكتب رسالتك هنا..."
                   required
                   minLength={10}
                   rows={5}
-                  className="w-full resize-y rounded-xl border border-[#ee9537] bg-transparent px-4 py-3 outline-none transition focus:ring-2 focus:ring-[#ee6326]"
+                  className={`w-full resize-y rounded-xl border-2 px-4 py-3 font-semibold leading-7 outline-none transition focus:border-[#ee6326] focus:ring-2 focus:ring-[#ee6326]/30 ${inputStyle}`}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full cursor-pointer rounded-full bg-[#ee6326] px-6 py-4 font-bold text-white transition hover:bg-[#ee9537]"
+                className="w-full cursor-pointer rounded-full bg-[#ee6326] px-6 py-4 text-lg font-black text-white shadow-md transition hover:bg-[#d95119] hover:shadow-lg"
               >
-                Send Message →
+                إرسال الرسالة ←
               </button>
             </form>
           </section>
-
         </div>
       </div>
     </main>

@@ -1,38 +1,4 @@
 
-
-// import Header from "./component/Header";
-
-// export default function App() {
- 
-//       <>
-//       <Header>
-//         jjjj
-//       </Header>
-//       </>
-// 
-
-// import { Routes, Route } from "react-router-dom";
-// import Header from "./component/Header";
-// import Footer from "./component/Footer";
-// import Home from "./pages/Home";
-// import Products from "./pages/Products";
-
-// export default function App() {
-//   return (
-//     <>
-//       <Header />
-
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/products" element={<Products />} />
-//       </Routes>
-
-//       <Footer />
-//     </>
-//   );
-// }
-
-
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./component/Navbar";
@@ -53,7 +19,7 @@ export default function App() {
     <>
       <Navbar />
 
-      <main className="pt-32">
+      <main className="pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
