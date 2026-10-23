@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useTheme } from "../ThemeContext.jsx";
 import dark from "../assets/dark.svg";
@@ -26,13 +27,6 @@ export default function Contact() {
   const inputStyle = darkMode
     ? "border-[#ee9537]/60 bg-[#281713]/70 text-[#fce1ce] placeholder:text-[#fce1ce]/50"
     : "border-[#ee9537]/70 bg-[#fffaf6] text-[#662714] placeholder:text-[#662714]/50";
-
-  const backgroundStyle = {
-    backgroundImage: `url(${darkMode ? dark : white})`,
-    backgroundSize: "100% auto",
-    backgroundPosition: "top center",
-    backgroundRepeat: "repeat-y",
-  };
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -80,10 +74,22 @@ export default function Contact() {
   return (
     <main
       dir="rtl"
-      style={backgroundStyle}
-      className={`min-h-screen px-4 py-12 md:px-10 ${pageStyle}`}
+      className={`relative min-h-screen overflow-hidden px-4 py-12 md:px-10 ${pageStyle}`}
     >
-      <div className="mx-auto max-w-6xl">
+      {/* الخلفية بأوباسيتي 15% */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${darkMode ? dark : white})`,
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "repeat-y",
+          opacity: 0.15,
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* عنوان الصفحة */}
         <div className="mb-12 text-center">
           <p className="mb-4 inline-block rounded-full border-2 border-[#ee9537] bg-[#662714] px-6 py-2 text-lg font-black text-white shadow-md">
@@ -128,7 +134,7 @@ export default function Contact() {
                 <div>
                   <h3 className="text-lg font-extrabold">متاحين ليكي</h3>
                   <p className="mt-2 font-medium leading-7 text-[#fce1ce]/85">
-                    تقدر تسيب رسالتك في أي وقت.
+                    تقدري تسيبي رسالتك في أي وقت.
                   </p>
                 </div>
               </div>
@@ -136,7 +142,8 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <span className="text-3xl">🌴</span>
                 <div>
-                  <h3 className="text-lg font-extrabold">تمرة — أكلة صحية
+                  <h3 className="text-lg font-extrabold">
+                    تمرة — أكلة صحية
                   </h3>
                   <p className="mt-2 font-medium leading-7 text-[#fce1ce]/85">
                     اختيارات صحية، وطعم مميز.

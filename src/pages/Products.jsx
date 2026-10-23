@@ -61,7 +61,10 @@ export default function Products() {
   const { addToCart } = useCart();
   const [searchParams] = useSearchParams();
 
-  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [search, setSearch] = useState(
+    searchParams.get("search") || ""
+  );
+
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [favorites, setFavorites] = useState([]);
 
@@ -71,7 +74,9 @@ export default function Products() {
         localStorage.getItem("tamra-favorites") || "[]"
       );
 
-      setFavorites(Array.isArray(savedFavorites) ? savedFavorites : []);
+      setFavorites(
+        Array.isArray(savedFavorites) ? savedFavorites : []
+      );
     } catch {
       setFavorites([]);
     }
@@ -128,15 +133,26 @@ export default function Products() {
   return (
     <main
       dir="rtl"
-      className={`min-h-screen px-4 py-10 sm:px-6 lg:px-10 ${pageStyle}`}
+      className={`relative min-h-screen overflow-hidden px-4 py-10 sm:px-6 lg:px-10 ${pageStyle}`}
       style={{
-        backgroundImage: `url(${darkMode ? dark : white})`,
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
-        backgroundRepeat: "repeat-y",
+        backgroundColor: darkMode ? "#281713" : "#FCE1CE",
       }}
     >
-      <div className="mx-auto max-w-7xl">
+      {/* الخلفية بشفافية 15% */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${darkMode ? dark : white})`,
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "repeat-y",
+          opacity: 0.15,
+        }}
+      />
+
+      {/* محتوى الصفحة */}
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* عنوان الصفحة */}
         <div className="mb-8 text-center">
           <h1 className="mb-4 text-3xl font-extrabold sm:text-4xl lg:text-5xl">
@@ -146,8 +162,15 @@ export default function Products() {
           <p
             className={`mx-auto max-w-2xl text-base font-semibold leading-8 sm:text-lg ${mutedText}`}
           >
-            اختار سناكس صحية ولذيذة تناسب يومك، بمكونات بسيطة وطعم يتحب.
+            اختاري سناكس صحية ولذيذة تناسب يومك، بمكونات بسيطة وطعم يتحب.
           </p>
+
+          <Link
+            to="/wishlist"
+            className="mt-4 inline-block font-extrabold text-[#ee6326] transition hover:underline"
+          >
+            ❤️ قائمة المفضلة ({favorites.length})
+          </Link>
         </div>
 
         {/* البحث */}
@@ -156,7 +179,7 @@ export default function Products() {
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="ابحث عن المنتج اللي بتحبيه..."
+            placeholder="ابحثي عن المنتج بالعربي أو الإنجليزي..."
             aria-label="البحث عن المنتجات"
             className={`w-full rounded-full border-2 px-5 py-4 text-base font-semibold outline-none transition ${inputStyle}`}
           />
@@ -165,19 +188,22 @@ export default function Products() {
         {/* التصنيفات */}
         <div className="mb-10 flex flex-wrap justify-center gap-3">
           {categories.map((category) => {
-            const isSelected = selectedCategory === category.value;
+            const isSelected =
+              selectedCategory === category.value;
 
             return (
               <button
                 key={category.value}
                 type="button"
-                onClick={() => setSelectedCategory(category.value)}
+                onClick={() =>
+                  setSelectedCategory(category.value)
+                }
                 className={`cursor-pointer rounded-full border-2 px-5 py-3 text-sm font-extrabold transition sm:text-base ${
                   isSelected
                     ? "border-[#ee6326] bg-[#ee6326] text-white shadow-md"
                     : darkMode
-                      ? "border-[#9B654C] bg-[#24130E] text-white hover:border-[#ee9537] hover:bg-[#45251A]"
-                      : "border-[#B98C75] bg-white text-[#3B1608] hover:border-[#ee6326] hover:bg-[#FFF0E5]"
+                    ? "border-[#9B654C] bg-[#24130E] text-white hover:border-[#ee9537] hover:bg-[#45251A]"
+                    : "border-[#B98C75] bg-white text-[#3B1608] hover:border-[#ee6326] hover:bg-[#FFF0E5]"
                 }`}
               >
                 {category.name}
@@ -193,7 +219,7 @@ export default function Products() {
           </p>
         </div>
 
-        {/* المنتجات */}
+        {/* عرض المنتجات */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product) => {
@@ -254,7 +280,8 @@ export default function Products() {
                     </Link>
 
                     <p
-                      className={`mb-4 text-sm font-semibold leading-6 ${mutedText}`}
+                      dir="ltr"
+                      className={`mb-4 text-right text-sm font-semibold leading-6 ${mutedText}`}
                     >
                       {product.name}
                     </p>
@@ -287,14 +314,14 @@ export default function Products() {
                       {product.price} جنيه
                     </p>
 
-                    {/* زر السلة والسهم */}
+                    {/* زر السلة والتفاصيل */}
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => addToCart(product)}
                         className="flex-1 cursor-pointer rounded-full bg-[#ee6326] px-3 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#d94f18] hover:shadow-md sm:text-base"
                       >
-                        أضيفي إلى السلة 🛒
+                        أضف إلى السلة 🛒
                       </button>
 
                       <Link
@@ -340,6 +367,23 @@ export default function Products() {
             </button>
           </div>
         )}
+
+        {/* رابط المفضلة والسلة */}
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <Link
+            to="/wishlist"
+            className="rounded-full border-2 border-[#ee6326] px-6 py-3 font-extrabold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white"
+          >
+            ❤️ قائمة المفضلة
+          </Link>
+
+          <Link
+            to="/cart"
+            className="rounded-full bg-[#ee6326] px-6 py-3 font-extrabold text-white transition hover:bg-[#d94f18]"
+          >
+            عرض سلة التسوق 
+          </Link>
+        </div>
       </div>
     </main>
   );

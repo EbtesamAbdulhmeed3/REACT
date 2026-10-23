@@ -1,4 +1,5 @@
 
+
 import { Link, useParams } from "react-router-dom";
 import { products } from "./Products";
 import { useTheme } from "../ThemeContext.jsx";
@@ -21,6 +22,7 @@ const productDetails = {
     ],
     storage: "يُحفظ في مكان بارد وجاف وفقًا لتعليمات العبوة.",
   },
+
   2: {
     calories: 220,
     weight: "50 جم",
@@ -34,6 +36,7 @@ const productDetails = {
     ],
     storage: "يُحفظ وفقًا لتعليمات العبوة.",
   },
+
   3: {
     calories: 1475,
     weight: "250 جم",
@@ -48,6 +51,7 @@ const productDetails = {
     ],
     storage: "تُحفظ وفقًا لتعليمات العبوة.",
   },
+
   4: {
     calories: 1230,
     weight: "300 جم",
@@ -80,9 +84,7 @@ export default function ProductDetails() {
   const product = products.find((item) => item.id === Number(id));
   const details = productDetails[Number(id)];
 
-  const pageStyle = darkMode
-    ? "text-white"
-    : "text-[#3B1608]";
+  const pageStyle = darkMode ? "text-white" : "text-[#3B1608]";
 
   const cardStyle = darkMode
     ? "border border-[#754331] bg-[#24130E] text-white"
@@ -100,15 +102,22 @@ export default function ProductDetails() {
     return (
       <main
         dir="rtl"
-        className={`min-h-screen px-4 py-16 ${pageStyle}`}
-        style={{
-          backgroundImage: `url(${darkMode ? dark : white})`,
-          backgroundSize: "100% auto",
-          backgroundPosition: "top center",
-          backgroundRepeat: "repeat-y",
-        }}
+        className={`relative min-h-screen overflow-hidden px-4 py-16 ${pageStyle}`}
       >
-        <div className="mx-auto max-w-xl text-center">
+        {/* الخلفية بشفافية 15% */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${darkMode ? dark : white})`,
+            backgroundSize: "100% auto",
+            backgroundPosition: "top center",
+            backgroundRepeat: "repeat-y",
+            opacity: 0.15,
+          }}
+        />
+
+        <div className="relative z-10 mx-auto max-w-xl text-center">
           <h1 className="mb-4 text-3xl font-extrabold">
             المنتج غير موجود
           </h1>
@@ -127,15 +136,23 @@ export default function ProductDetails() {
   return (
     <main
       dir="rtl"
-      className={`min-h-screen px-4 py-10 sm:px-6 md:px-10 ${pageStyle}`}
-      style={{
-        backgroundImage: `url(${darkMode ? dark : white})`,
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
-        backgroundRepeat: "repeat-y",
-      }}
+      className={`relative min-h-screen overflow-hidden px-4 py-10 sm:px-6 md:px-10 ${pageStyle}`}
     >
-      <div className="mx-auto max-w-6xl">
+      {/* الخلفية بشفافية 15% */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${darkMode ? dark : white})`,
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "repeat-y",
+          opacity: 0.15,
+        }}
+      />
+
+      {/* محتوى الصفحة */}
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* الرجوع للمنتجات */}
         <Link
           to="/products"
@@ -151,14 +168,14 @@ export default function ProductDetails() {
         >
           {/* صورة المنتج */}
           <div
-            className={`flex min-h-300px items-center justify-center p-5 sm:p-8 md:min-h-520px ${
+            className={`flex min-h-[300px] items-center justify-center p-5 sm:p-8 md:min-h-[520px] ${
               darkMode ? "bg-[#1D100C]" : "bg-[#FFF4EB]"
             }`}
           >
             <img
               src={product.image}
               alt={product.nameAr}
-              className="block h-auto max-h-420px w-full max-w-420px rounded-2xl object-contain"
+              className="block h-auto max-h-[420px] w-full max-w-[420px] rounded-2xl object-contain"
             />
           </div>
 
@@ -292,7 +309,7 @@ export default function ProductDetails() {
 
             <Link
               to="/products"
-              className={`mt-4 block w-full rounded-full border-2 border-[#ee6326] px-6 py-3 text-center font-extrabold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white`}
+              className="mt-4 block w-full rounded-full border-2 border-[#ee6326] px-6 py-3 text-center font-extrabold text-[#ee6326] transition hover:bg-[#ee6326] hover:text-white"
             >
               متابعة التسوق
             </Link>
